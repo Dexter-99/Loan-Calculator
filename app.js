@@ -12,9 +12,9 @@ function showPage() {
 document.getElementById('loan-form').addEventListener('submit',function(e)
 {
 e.preventDefault();
-let loan=parseFloat(document.querySelector('#loan-amount').value);
-let interest_percent=parseFloat(document.querySelector('#interest').value);
-let years=parseFloat(document.querySelector('#repay-years').value);
+let loan=document.querySelector('#loan-amount');
+let interest_percent=document.querySelector('#interest');
+let years=document.querySelector('#repay-years');
 let monthlyPayment=document.querySelector('#monthly-payment');
 let totalAmount=document.querySelector('#total-payment');
 let totalInterest=document.querySelector('#total-interest');
@@ -22,13 +22,23 @@ let result=document.querySelector('#result');
 let interest;
 let monthly_amt;
 let total_amount;
-console.log(loan);
-interest=((loan*interest_percent*years)/100).toFixed(2);
+interest=((parseFloat(loan.value)*parseFloat(interest_percent.value)*parseFloat(years.value))/100).toFixed(2);
 totalInterest.value=interest;
-total_amount=(loan+parseFloat(interest)).toFixed(2);
+total_amount=(parseFloat(loan.value)+parseFloat(interest)).toFixed(2);
 totalAmount.value=total_amount;
-monthly_amt=parseFloat(((total_amount)/(years*12)).toFixed(2));
+monthly_amt=parseFloat(((total_amount)/(years.value*12)).toFixed(2));
 monthlyPayment.value=monthly_amt;
-result.style.display="block";
+// Set loader
+loading();
 })
+function loading()
+{
+  document.getElementById('loading').style.display="block";
+  document.getElementById('result').style.display="none";
+  setTimeout(showResult,3500);
+}
+function showResult(){
+  document.getElementById('result').style.display="block";
+  document.getElementById('loading').style.display="none";
+}
 
